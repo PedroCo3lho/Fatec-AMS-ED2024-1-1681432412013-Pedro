@@ -9,13 +9,13 @@
 # Programa 1
 * Encontrar o Maior Elemento:** Implemente uma função que encontre e retorne o maior elemento presente no array. 
 
-# Programa 2 - 
+# Programa 2 
 * Implemente uma função que calcule e retorne a soma de todos os elementos do array. 
 
-# Programa 3 - 
+# Programa 3 
 * Imprimir o Array:** Implemente uma função que imprima todos os elementos do array. 
 
-# Programa 4 - 
+# Programa 4 
 * Implemente uma função que modifique todos os elementos do array, multiplicando cada elemento por um valor específico. 
 
 
