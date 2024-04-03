@@ -1,10 +1,10 @@
 /*------------------------------------------------------------------------*/
 /*   FATEC-São Caetano do Sul                 Estrutura de Dados          */
 /*                         Prof Veríssimo                                 */
-/*             Objetivo: Manipulação de Array de Inteiros com Ponteiros   */
-/*             Paradigama: - programação modular                          */
+/*             Objetivo: Manipulação de Lista da Guiada e Struct          */
+/*             Paradigama: programação estruturada                        */
 /*                                                                        */
-/* ~Pedro Coelho do Nascimento                             Data:18/03/2024*/
+/* ~Pedro Coelho do Nascimento                             Data:02/04/2024*/
 /*------------------------------------------------------------------------*/
 
 #include <stdio.h>
