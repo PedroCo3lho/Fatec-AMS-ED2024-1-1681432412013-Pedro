@@ -1,3 +1,12 @@
+/*------------------------------------------------------------------------*/
+/*   FATEC-São Caetano do Sul                 Estrutura de Dados          */
+/*                         Prof Veríssimo                                 */
+/*             Objetivo: Manipulação de Pilha com Struct e Ponteiro       */
+/*             Paradigama: programação estruturada                        */
+/*                                                                        */
+/* ~Pedro Coelho do Nascimento                             Data:22/04/2024*/
+/*------------------------------------------------------------------------*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
