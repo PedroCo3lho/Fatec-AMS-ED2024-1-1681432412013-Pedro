@@ -1,3 +1,12 @@
+/*------------------------------------------------------------------------*/
+/*   FATEC-São Caetano do Sul                 Estrutura de Dados          */
+/*                         Prof. Veríssimo                                 */
+/*             Objetivo: Implemementar fila de atendimento - Hospital     */
+/*             Paradigama: Implementar utilizando paradigma de fila       */
+/*                                                                        */
+/* ~Pedro Coelho do Nascimento                             Data:13/05/2024*/
+/*------------------------------------------------------------------------*/
+
 #include "fila.h"
 #include "menu.h"
 #include <stdbool.h>
