@@ -12,55 +12,62 @@
 #include <time.h>
 
 struct Node {
-    int data;
-    struct Node* next;
+  int data;
+  struct Node *next;
 };
 
-void insertNode(struct Node* prevNode) {
-    if (prevNode == NULL) {
-        printf("O nó anterior não pode ser nulo.\n");
-        return;
-    }
+void insertNode(struct Node *prevNode) {
+  if (prevNode == NULL) {
+    printf("O nó anterior não pode ser nulo.\n");
+    return;
+  }
 
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = 30;
+  struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+  newNode->data = 30;
 
-    newNode->next = prevNode->next;
-    prevNode->next = newNode;
+  newNode->next = prevNode->next;
+  prevNode->next = newNode;
 }
 
 int main() {
-    struct Node* head = NULL;
-    struct Node* second = NULL;
-    struct Node* third = NULL;
+  struct Node *head = NULL;
+  struct Node *second = NULL;
+  struct Node *third = NULL;
+  struct Node *fourth = NULL;
+  struct Node *fifth = NULL;
 
-    head = (struct Node*)malloc(sizeof(struct Node));
-    second = (struct Node*)malloc(sizeof(struct Node));
-    third = (struct Node*)malloc(sizeof(struct Node));
+  head = (struct Node *)malloc(sizeof(struct Node));
+  second = (struct Node *)malloc(sizeof(struct Node));
+  third = (struct Node *)malloc(sizeof(struct Node));
+  fourth = (struct Node *)malloc(sizeof(struct Node));
 
-    head->data = 10;
-    head->next = second;
+  head->data = 10;
+  head->next = second;
 
-    second->data = 25;
-    second->next = third;
+  second->data = 25;
+  second->next = third;
 
-    third->data = 40;
-    third->next = NULL;
+  third->data = 40;
+  third->next = fourth;
 
-    clock_t start = clock();
+  fourth->data = 80;
+  fourth->next = fifth;
 
-    insertNode(second);
 
-    clock_t end = clock();
+  clock_t start = clock();
 
-    struct Node* current = head;
-    while (current != NULL) {
-        printf("%d ", current->data);
-        current = current->next;
-    }
+  insertNode(second);
 
-    double time_taken = ((double)end - start) / CLOCKS_PER_SEC;
-    printf("\nTempo de processamento: %.6f segundos\n", time_taken);
+  clock_t end = clock();
 
-    return 0;
+  struct Node *current = head;
+  while (current != NULL) {
+    printf("%d ", current->data);
+    current = current->next;
+  }
+
+  double time_taken = ((double)end - start) / CLOCKS_PER_SEC;
+  printf("\nTempo de processamento: %.6f segundos\n", time_taken);
+
+  return 0;
 }
