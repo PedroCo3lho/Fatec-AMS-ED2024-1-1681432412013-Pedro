@@ -6,83 +6,36 @@
 /* ~Pedro Coelho do Nascimento                             Data:10/08/2024*/
 /*------------------------------------------------------------------------*/
 #include <stdio.h>
-#include <time.h>
 
-// Função para contar o tempo de execução de cada instrução
-double calcTime(clock_t start, clock_t end) {
-    return ((double)(end - start)) / CLOCKS_PER_SEC;
-}
-
-void insertionSort(int A[], int n) {
-    clock_t startTotal, endTotal;
-    startTotal = clock(); // Início da medição de tempo total
-
-    for (int j = 0; j < n; j++) {  // Lembrar que em C, os índices começam em 0
-        clock_t start, end;
-        double t;
-
-        start = clock();
-        int key = A[j];
-        end = clock();
-        t = calcTime(start, end);
-        printf("Tempo para atribuição de key: %f segundos\n", t);
-
-        start = clock();
-        int i = j - 1;
-        end = clock();
-        t = calcTime(start, end);
-        printf("Tempo para atribuição de i: %f segundos\n", t);
-
-        start = clock();
-        while (i >= 0 && A[i] > key) {
-            end = clock();
-            t = calcTime(start, end);
-            printf("Tempo para comparação no while: %f segundos\n", t);
-
-            start = clock();
-            A[i + 1] = A[i];
-            i = i - 1;
-            end = clock();
-            t = calcTime(start, end);
-            printf("Tempo para atribuição e decremento: %f segundos\n", t);
-
-            start = clock(); // reinicia o relógio para próxima comparação
-        }
-        end = clock();
-        t = calcTime(start, end);
-        printf("Tempo total dentro do loop while para j=%d: %f segundos\n", j, t);
-
-        start = clock();
-        A[i + 1] = key;
-        end = clock();
-        t = calcTime(start, end);
-        printf("Tempo para atribuição final: %f segundos\n", t);
-        printf("---------------------------------------------------------------\n");
+// 1t
+int *insertion_sort(int a[], int n) { 
+  // 3t(n)
+  for(int j = 1; j < n; j++) {
+    // 2t(n)
+    int key = a[j];
+    // 2t(n)
+    int i = j - 1;
+    // 4t(n²)
+    while(i >= 0 && a[i] > key) {
+      // 4t(n²)
+      a[i + 1] = a[i];
+      // 1t(n²)
+      i -= 1;
     }
-
-    endTotal = clock(); // Fim da medição de tempo total
-    double totalTimeSpent = calcTime(startTotal, endTotal);
-    printf("Tempo total de execução do insertionSort: %f segundos\n", totalTimeSpent);
+    // 3t(n)
+    a[i + 1] = key;
+  }
+  // 1t
+  return a;                          
 }
 
-void printArray(int A[], int n) {
-    for (int i = 0; i < n; i++) {
-        printf("%d ", A[i]);
-    }
-    printf("\n\n");
+void print_array(int a[], int n) {
+  for(int i = 0; i < n; i++) {
+      printf("%d ", a[i]);
+  }
 }
 
-int main() {
-    int A[] = {25, 20, 15, 10, 5, 0, -5};
-    int n = sizeof(A) / sizeof(A[0]);
-
-    printf("Array original:\n");
-    printArray(A, n);
-
-    insertionSort(A, n);
-
-    printf("Array ordenado:\n");
-    printArray(A, n);
-
-    return 0;
+int main(void) {
+  int a[] = {25, 10, 15, 20, -5};
+  print_array(insertion_sort(a, 5), 5);
 }
