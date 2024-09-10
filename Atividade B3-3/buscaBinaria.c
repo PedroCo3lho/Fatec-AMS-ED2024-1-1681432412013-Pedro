@@ -2,7 +2,7 @@
 Fatec São Caetano do Sul - Estrutura de Dados
 Professor: Carlos Veríssimo
 Proposta: Implementação de algoritmos de busca
-Autor: Thiago Ulloa
+Autor: Pedro Coelho do Nascimento
 Data: 09/09/2024
 ------------------------------------------- */
 
