@@ -1,4 +1,4 @@
-# Projeto de Blockchain
+# Projeto Simulação de Blockchain
 
 ## Capa
 **Identificação dos componentes da equipe:**
