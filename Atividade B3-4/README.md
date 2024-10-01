@@ -1,10 +1,9 @@
-# Projeto de Blockchain
+## Projeto Simulação de Blockchain
 
-## Capa
 **Identificação dos componentes da equipe:**
 
 - Pedro Nascimento
-- Matheus Macedo 
+- Matheus Macedo 
 - Kawai Soares
 - Thiago Ulloa
 - Guilherme Pradela
@@ -30,8 +29,6 @@ O objetivo é criar um sistema de blockchain funcional que realiza as seguintes 
 1. Mineração de blocos, onde um hash válido deve ser encontrado.
 2. Validação da blockchain para garantir a integridade dos blocos.
 3. Armazenamento de transações em blocos, com um processo de verificação baseado em "prova de trabalho".
-
----
 
 ## Macro Solução
 
@@ -137,4 +134,35 @@ O sistema faz uso de laços de repetição tanto para encontrar o último bloco 
 
 ---
 
+
+
+## Análise Assintótica: Iteração vs. Recursividade na Validação da Blockchain
+
+### Iteração
+
+**Vantagem**: 
+- Direto e eficiente: O loop for percorre a cadeia de forma linear, realizando um número constante de operações por bloco.
+- Menor sobrecarga: Não há chamadas de função recursivas, o que reduz a sobrecarga da pilha.
+
+**Desvantagem**:
+- Menos elegante: Para problemas recursivos, a solução iterativa pode ser menos intuitiva.
+
+**Análise:**
+A complexidade de tempo da iteração é O(n), onde n é o número de blocos na blockchain. Isso significa que o tempo de execução cresce linearmente com o tamanho da entrada.
+
+
+### Recursividade
+
+**Vantagem**: 
+- Elegante: A solução recursiva reflete a natureza hierárquica da blockchain.
+- Mais concisa: A lógica pode ser mais concisa em alguns casos.
+
+**Desvantagem**:
+- Sobrecarga de chamadas: Cada chamada recursiva consome memória da pilha.
+- Menos eficiente: A chamada de função recursiva tem um custo adicional.
+
+**Análise:**
+A complexidade de tempo da recursividade também é O(n), pois cada bloco é visitado apenas uma vez. No entanto, a constante implícita na notação O pode ser maior devido às chamadas de função recursivas.
+
+---
 **Link para a apresentação:** [Canva](https://www.canva.com/design/DAGSQjGojX4/ea6rMgsWqI3yVJyqBWWXeg/edit?utm_content=DAGSQjGojX4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
