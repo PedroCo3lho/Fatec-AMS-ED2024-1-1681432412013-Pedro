@@ -97,7 +97,7 @@ O sistema faz uso de laços de repetição tanto para encontrar o último bloco 
      }
      ```
 
-3. **Validação da Blockchain**:
+3. **Validação da Blockchain com Recursividade**:
    - A validação recursiva da blockchain é feita para verificar a integridade da cadeia, garantindo que o hash de cada bloco corresponde ao valor esperado, baseado nos dados e hash anterior.
      ```rust
         // Valida a blockchain recursivamente
@@ -121,6 +121,31 @@ O sistema faz uso de laços de repetição tanto para encontrar o último bloco 
             }
             true
         }   
+     ```
+
+3. **Validação da Blockchain com Iteração**:
+   - A validação utiliza um laço while para iterar sobre todos os blocos da blockchain, comparando o hash atual de cada bloco com o hash referenciado no próximo bloco.
+     ```rust
+        // Valida a blockchain utilizando iteração
+        fn validate_chain_iteratively(&self) -> bool {
+            let mut current = &self.head;
+            
+            // Verifica a integridade de cada bloco em relação ao anterior
+            while let Some(ref block) = current {
+                if let Some(ref next_block) = block.next {
+                    // Verifica se o hash atual do bloco é igual ao hash anterior do próximo bloco
+                    if block.hash != next_block.previous_hash {
+                        return false;
+                    }
+                    // Verifica se o hash do próximo bloco é válido
+                    if next_block.hash != Blockchain::calculate_hash(next_block) {
+                        return false;
+                    }
+                }
+                current = &block.next;
+            }
+            true
+        }
      ```
 
 ---
