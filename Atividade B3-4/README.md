@@ -35,74 +35,106 @@ O objetivo é criar um sistema de blockchain funcional que realiza as seguintes 
 
 ## Macro Solução
 
-A solução foi implementada em Rust, utilizando estruturas básicas de dados para representar blocos e a cadeia de blocos. A mineração ocorre ao encontrar um valor de `nonce` que gera um hash válido de acordo com o nível de dificuldade definido.
+Este documento descreve a implementação de uma blockchain simples em Rust, utilizando uma lista ligada como estrutura de dados para armazenar os blocos. A implementação inclui a criação de um bloco gênesis, a mineração de novos blocos e a validação da blockchain.
 
-### Estrutura do Projeto
+## Estruturas do Projeto
 
-- **Bloco**: Contém o índice, timestamp, dados, hash do bloco anterior, hash do bloco atual e o `nonce`.
-- **Blockchain**: Um vetor de blocos que forma a cadeia.
+### 1. Estrutura do Bloco
 
-### Detalhes de Implementação
+```Rust
+struct Block {
+    index: u64,
+    timestamp: u128,
+    data: String,
+    previous_hash: String,
+    hash: String,
+    nonce: u64,
+    next: Option<Box<Block>>, // Apontador para o próximo bloco
+}
+```
+- **`index: u64`**: O índice do bloco na cadeia.
+- **`timestamp: u128`**: O timestamp em milissegundos representando quando o bloco foi minerado.
+- **`data: String`**: Os dados contidos no bloco (por exemplo, transações).
+- **`previous_hash: String`**: O hash do bloco anterior, garantindo a ligação entre os blocos.
+- **`hash: String`**: O hash atual do bloco, que é calculado durante a mineração.
+- **`nonce: u64`**: Um número usado para a mineração, que é incrementado até que um hash válido seja encontrado.
+- **`next: Option<Box<Block>>`**: Um ponteiro para o próximo bloco na lista ligada.
 
-#### 1. Mineração de Bloco
-
-Cada bloco é minerado ao tentar diferentes valores de `nonce` até encontrar um hash válido que atenda a dificuldade exigida (número de zeros iniciais no hash).
-
-**Laço de repetição**: Um loop `while` é utilizado para incrementar o valor de `nonce` até encontrar o hash que satisfaça o nível de dificuldade.
+### 2. Estrutura da Blockchain
+A estrutura `Blockchain` representa a cadeia de blocos e contém os seguintes campos:
 
 ```rust
-while !self.prova_de_trabalho(dificuldade) {
-    self.nonce += 1;
+struct Blockchain {
+    head: Option<Box<Block>>, // Primeira referência na lista ligada
+    difficulty: usize,
 }
 ```
 
-#### 2. Exibição da Blockchain
+- **`head: Option<Box<Block>>`**: A referência ao primeiro bloco (cabeça) da lista ligada.
+- **`difficulty: usize`**: O nível de dificuldade para a mineração, que determina quantos zeros iniciais devem estar presentes no hash.
 
-Os blocos são exibidos com todas as suas informações, como índice, timestamp, dados, hash anterior e o hash gerado.
+### Laços de Repetição
 
-Laço de repetição: Um loop for é utilizado para percorrer e exibir todos os blocos da blockchain.
+O sistema faz uso de laços de repetição tanto para encontrar o último bloco da blockchain quanto para realizar a mineração dos novos blocos. 
 
-rust
-Copy code
-for bloco in &self.cadeia {
-    println!("{:?}", bloco);
-}
+1. **Mineração (Proof of Work)**:
+   - Durante a mineração, a função `mine_block` ajusta o valor do `nonce` repetidamente até que o hash do bloco satisfaça o critério de dificuldade.
+   - Este laço ocorre na linha:
+     ```rust
+     while !Blockchain::is_valid_hash(&new_block.hash, self.difficulty) {
+         new_block.nonce += 1;
+         new_block.hash = Blockchain::calculate_hash(&new_block);
+     }
+     ```
 
+2. **Inserção de Bloco**:
+   - A inserção de um novo bloco na blockchain também envolve um laço para encontrar o último bloco na lista ligada:
+     ```rust
+     let mut current = &mut self.head;
+     while let Some(ref mut block) = current {
+         if block.next.is_none() {
+             // Insere o novo bloco
+             ...
+         }
+         current = &mut block.next;
+     }
+     ```
 
-#### 3. Validação da Blockchain
-A blockchain é validada verificando-se se o hash de cada bloco corresponde ao hash calculado e se o hash anterior de cada bloco corresponde ao hash do bloco anterior.
+3. **Validação da Blockchain**:
+   - A validação recursiva da blockchain é feita para verificar a integridade da cadeia, garantindo que o hash de cada bloco corresponde ao valor esperado, baseado nos dados e hash anterior.
+     ```rust
+        // Valida a blockchain recursivamente
+        fn validate_chain_recursively(&self) -> bool {
+            if let Some(ref block) = self.head {
+                return Blockchain::validate_block_recursively(block);
+            }
+            true
+        }
 
-Recursividade: A função valida_blockchain_recursiva percorre a cadeia de blocos de forma recursiva, comparando o bloco atual com o anterior.
+        // Valida cada bloco com o anterior usando recursão
+        fn validate_block_recursively(block: &Block) -> bool {
+            if let Some(ref next_block) = block.next {
+                if block.hash != next_block.previous_hash {
+                    return false;
+                }
+                if next_block.hash != Blockchain::calculate_hash(next_block) {
+                    return false;
+                }
+                return Blockchain::validate_block_recursively(next_block);
+            }
+            true
+        }   
+     ```
 
-```rust
-Copy code
-fn valida_blockchain_recursiva(&self, indice: usize) -> bool {
-    if indice == 0 {
-        return true;
-    }
+---
 
-    let bloco_atual = &self.cadeia[indice];
-    let bloco_anterior = &self.cadeia[indice - 1];
+## Ferramentas e Linguagens Utilizadas
 
-    if bloco_atual.hash != bloco_atual.calcula_hash() {
-        return false;
-    }
+- **Rust**: Linguagem de programação utilizada para implementar a simulação da blockchain. Rust oferece segurança de memória e excelente desempenho para sistemas concorrentes, como blockchains.
+- **Sha2**: Biblioteca utilizada para gerar hashes criptográficos no padrão **SHA-256**, que é amplamente utilizado em blockchains reais, como o Bitcoin.
+- **Sistema de Tempo (SystemTime)**: Utilizado para gerar o timestamp de cada bloco, permitindo o registro de quando o bloco foi criado.
+- **Cargo**: Ferramenta de build e gerenciamento de pacotes do ecossistema Rust.
 
-    if bloco_atual.hash_anterior != bloco_anterior.hash {
-        return false;
-    }
+---
 
-    self.valida_blockchain_recursiva(indice - 1)
-}
-```
-
-
-## Conclusão
-Com essas três estruturas principais, conseguimos implementar uma blockchain funcional que cumpre os requisitos de segurança, imutabilidade e descentralização. A blockchain valida os blocos automaticamente, garantindo a integridade de cada um.
-
-## Ferramentas e Tecnologias Utilizadas
-### Linguagem de Programação:
-**Rust**: Escolhida pela sua segurança de memória, alta performance e o excelente suporte à concorrência, que são cruciais para a implementação de sistemas como blockchains.
-
-### Bibliotecas Utilizadas:
-**sha2**: Utilizada para gerar hashes com o algoritmo SHA-256. A função de hash é fundamental para a criação de blocos seguros e imutáveis na blockchain.
+**Link para a apresentação:** [Canva](https://www.canva.com/design/DAGSQjGojX4/ea6rMgsWqI3yVJyqBWWXeg/edit?utm_content=DAGSQjGojX4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
